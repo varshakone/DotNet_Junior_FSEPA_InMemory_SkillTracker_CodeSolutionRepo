@@ -1,0 +1,72 @@
+﻿@model SkillTracker.Entities.Skill
+
+@{
+    ViewData["Title"] = "Edit Skill";
+}
+
+<h2>Edit Skill</h2>
+
+<p>
+    <a asp-controller="Home" asp-action="Index">Back to home</a>
+</p>
+<hr />
+<form asp-action="update" method="post">
+    <div class="row ">
+        <div class="col-md-2 bg-primary">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SkillName" class="control-label"></label>
+                <input asp-for="SkillName" class="form-control" title="Skill Name" />
+                <span asp-validation-for="SkillName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SkillLevel" class="control-label"></label>
+                <select asp-for="SkillLevel" class="form-control" title="Skill Level" asp-items="Html.GetEnumSelectList<SkillTracker.Entities.SkillLevel>()"></select>
+                <span asp-validation-for="SkillLevel" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2 bg-primary">
+            <div class="form-group">
+                <label asp-for="SkillCategory" class="control-label"></label>
+
+                <select asp-for="SkillCategory" class="form-control" title="Skill Catagory" asp-items="Html.GetEnumSelectList<SkillTracker.Entities.SkillCategory>()"></select>
+                <span asp-validation-for="SkillCategory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SkillType" class="control-label"></label>
+                <select asp-for="SkillType" class="form-control" title="Skill Type" asp-items="Html.GetEnumSelectList<SkillTracker.Entities.SkillType>()"></select>
+                <span asp-validation-for="SkillType" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-2 bg-primary">
+            <div class="form-group">
+                <label asp-for="Remark" class="control-label"></label>
+                <input asp-for="Remark" class="form-control" title="Remark" />
+                <span asp-validation-for="Remark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SkillTotalExperiance" class="control-label"></label>
+                <input asp-for="SkillTotalExperiance" class="form-control" title="Total Experiance" />
+                <span asp-validation-for="SkillTotalExperiance" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row ">
+        <div class="col-md-2 ">
+            <div class="form-group">
+                <input type="submit" value="Update Skill" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

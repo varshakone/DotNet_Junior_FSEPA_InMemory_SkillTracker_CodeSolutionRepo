@@ -1,0 +1,29 @@
+﻿
+
+@{
+    ViewData["Title"] = "DestroySkill";
+}
+
+
+<form asp-action="delete">
+    <div>
+
+        <hr />
+        <p>
+            <a asp-controller="Home" asp-action="Index">Back to home</a>
+        </p>
+        <div class="row ">
+            <div class="col-md-2 bg-primary">
+
+                <div class="form-group">
+                    <label class="control-label">Skill Name</label>
+                    <input id="skillname" name="skillname" class="form-control" title="Skill Name" placeholder="Skill Name" required />
+                </div>
+            </div>
+        </div>
+
+        <br /><br />
+        <input type="submit" value="Delete Skill" class="btn btn-success" formmethod="post" />
+
+    </div>
+</form>
