@@ -6,27 +6,37 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SkillTracker.BusinessLayer.Service.Repository;
 
 namespace SkillTracker.BusinessLayer.Service
 {
     public class SkillService : ISkillService
     {
-        private readonly ISkillConnection _skillConnection;
+        /// <summary>
+        /// skillrepository type of reference
+        /// </summary>
+        private readonly ISkillRepository _skillRepository;
 
-        public SkillService(SkillContext skillContext)
+        /// <summary>
+        /// Inject SkillRepository object
+        /// </summary>
+        /// <param name="skillRepository"></param>
+        public SkillService(ISkillRepository skillRepository)
         {
-            _skillConnection = new SkillConnection(skillContext);
+            _skillRepository = skillRepository;
         }
 
-        // Save new skill upgarded by full stack engineer into database
-        public IEnumerable<Skill> GetAllSkills()
+
+        /// <summary>
+        /// call repository method to Save new skill upgarded by full stack engineer into database
+        /// </summary>
+        /// <returns>list of skills</returns>
+      public async Task<IEnumerable<Skill>> GetAllSkills()
         {
+            //Business Logic goes here
             try
             {
-                String message = string.Empty;
-                var context = _skillConnection.GetSkillContext;
-
-                var lstSkills = context.Skills;
+               var lstSkills = await _skillRepository.GetAllSkills();
                 
                 return lstSkills;
             }
@@ -35,22 +45,19 @@ namespace SkillTracker.BusinessLayer.Service
                 throw ex;
             }
         }
-        // Save new skill upgarded by full stack engineer into database
-        public async Task<string> AddNewSkill(Skill skill)
-        {
+
+        /// <summary>
+        /// Save new skill upgarded by full stack engineer into database
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns>New Skill Added</returns>
+     public async Task<string> AddNewSkill(Skill skill)
+        { 
+            //Business Logic goes here
             try
             {
                 String message = string.Empty;
-                var context = _skillConnection.GetSkillContext;
-            
-                    var lstSkills = context.Skills;
-                    var result = lstSkills.Add(skill);
-                    if (result.State == EntityState.Added)
-                    {
-                        message = "New Skill Added";
-                        await context.SaveChangesAsync();
-                    }
-               
+                message = await _skillRepository.AddNewSkill(skill);
                 return message;
             }
             catch (Exception ex)
@@ -58,23 +65,20 @@ namespace SkillTracker.BusinessLayer.Service
                 throw ex;
             }
         }
-        // delete skill of full stack engineer from database
+
+        /// <summary>
+        /// call repository method to delete skill of full stack engineer from database
+        /// </summary>
+        /// <param name="skillname"></param>
+        /// <returns>delete count 1</returns>
+
         public async Task<int> DeleteSkill(string skillname)
         {
+            //Business Logic goes here
             try
             {
-                int count = 0;
-                var context = _skillConnection.GetSkillContext;
-              
-                    var lstSkills = context.Skills;
-                    var result = await lstSkills.SingleOrDefaultAsync(skl => skl.SkillName == skillname);
-                    var removeResult = lstSkills.Remove(result);
-                    if (removeResult.State == EntityState.Deleted)
-                    {
-                        count = 1;
-                        await context.SaveChangesAsync();
-                    }
-               
+                int count = await _skillRepository.DeleteSkill(skillname);
+                      
                 return count;
             }
             catch (Exception ex)
@@ -82,29 +86,20 @@ namespace SkillTracker.BusinessLayer.Service
                 throw ex;
             }
         }
-        // update skill upgarded by full stack engineer from database
-        public async Task<int> EditSkill(Skill skill)
+
+
+        /// <summary>
+        /// update skill upgarded by full stack engineer from database
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns>edit count 1</returns>
+       public async Task<int> EditSkill(Skill skill)
         {
+            //Business Logic goes here
             try
             {
-                int count = 0;
-                var context = _skillConnection.GetSkillContext;
-              
-                    var lstSkills = context.Skills;
-                    var result = await lstSkills.SingleOrDefaultAsync(skl => skl.SkillName == skill.SkillName);
-                     result.Remark = skill.Remark;
-                    result.SkillCategory = skill.SkillCategory;
-                     result.SkillLevel = skill.SkillLevel;
-                     result.SkillName = skill.SkillName;
-                        result.SkillType = skill.SkillType;
-                        result.SkillTotalExperiance = skill.SkillTotalExperiance;
-                    var editResult = lstSkills.Update(result);
-                    if (editResult.State == EntityState.Modified)
-                    {
-                        count = 1;
-                        await context.SaveChangesAsync();
-                    }
-            
+                int count = await _skillRepository.EditSkill(skill);
+    
                 return count;
             }
             catch (Exception ex)

@@ -4,7 +4,7 @@
 }
 
 
-<form asp-action="delete">
+<form asp-controller="User" asp-action="DestroyUser"  >
     <div>
 
         <hr />
@@ -28,7 +28,7 @@
         </div>
 
         <br /><br />
-        <input type="submit" value="Delete User" class="btn btn-success" />
+        <input type="submit" value="Delete User" class="btn btn-success" formmethod="post" />
 
     </div>
 

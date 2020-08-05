@@ -11,7 +11,7 @@ namespace SkillTracker.BusinessLayer.Interface
         Task<String> AddNewSkill(Skill skill);
         Task<int> EditSkill(Skill skill);
         Task<int> DeleteSkill(String skillname);
-        IEnumerable<Skill> GetAllSkills();
+        Task<IEnumerable<Skill>> GetAllSkills();
 
     }
 }

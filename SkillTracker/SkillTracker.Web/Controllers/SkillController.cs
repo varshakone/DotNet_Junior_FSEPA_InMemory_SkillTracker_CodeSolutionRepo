@@ -10,19 +10,28 @@ using SkillTracker.Entities;
 
 namespace SkillTracker.Web.Controllers
 {
+    //[Route("/skill")]
     public class SkillController : Controller
     {
         private readonly ISkillService _skillService;
-        public SkillController(SkillContext skillContext)
+        public SkillController(ISkillService skillService)
         {
-            _skillService = new SkillService(skillContext);
+            _skillService = skillService;
         }
-        // Save new skill upgarded by full stack engineer
-        public IActionResult AllSkills()
+
+
+        /// <summary>
+        /// Show all skills present in db
+        /// </summary>
+        /// <returns></returns>
+          
+        
+        public async Task<IActionResult> AllSkills()
         {
+            //business logic goes here
             try
             {
-                var result = _skillService.GetAllSkills();
+                var result =await _skillService.GetAllSkills();
                 if (result != null)
                 {
                   return View(result);
@@ -34,9 +43,17 @@ namespace SkillTracker.Web.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        // Save new skill upgarded by full stack engineer
+
+
+        /// <summary>
+        /// return view to enter details of skill
+        /// </summary>
+        /// <returns></returns>
+
+       
         public IActionResult NewSkill()
         {
+            //business logic goes here
             try
             {
                 return View();
@@ -47,17 +64,25 @@ namespace SkillTracker.Web.Controllers
             }
         }
 
-        // Save new skill upgarded by full stack engineer
+
+        /// <summary>
+        /// Post new skill details and save it
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
+
+       
         [HttpPost]
         public async Task< IActionResult> NewSkill(Skill skill)
         {
+            //business logic goes here
             try
             {
                 var result = await _skillService.AddNewSkill(skill);
                 if(result == "New Skill Added")
                 {
                     ViewBag.result = result;
-                    return RedirectToAction("AllSkills");
+                    return RedirectToAction("allskills");
                 }
                 else
                 {
@@ -71,11 +96,16 @@ namespace SkillTracker.Web.Controllers
             }
         }
 
-        // update skill upgarded by full stack engineer
+        /// <summary>
+        /// Show view to enter details of skill
+        /// </summary>
+        /// <returns></returns>
+        
         [HttpGet]
-        [Route("/skill/update")]
+       
         public IActionResult ReviseSkill()
         {
+            //business logic goes here
             try
             {
                 return View();
@@ -86,23 +116,28 @@ namespace SkillTracker.Web.Controllers
             }
         }
 
-        // update skill upgarded by full stack engineer
+        /// <summary>
+        /// update skill upgarded by full stack engineer
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
+        
         [HttpPost]
-        [Route("/skill/update")]
-        public async Task<IActionResult> ReviseSkill(Skill skill)
+       public async Task<IActionResult> ReviseSkill(Skill skilldetails)
         {
+            //business logic goes here
             try
             {
-                var result = await _skillService.EditSkill(skill);
+                var result = await _skillService.EditSkill(skilldetails);
                 if (result == 1)
                 {
-                    return RedirectToAction("AllSkills");
+                    return RedirectToAction("allskills");
                 }
                 else
                 {
-                    return RedirectToAction("AllSkills");
+                    return RedirectToAction("allskills");
                 }
-                return View();
+               
             }
             catch (Exception ex)
             {
@@ -110,11 +145,17 @@ namespace SkillTracker.Web.Controllers
             }
         }
 
-        // delete skill of full stack engineer
+
+        /// <summary>
+        /// Show view to input name od skill to be deleted
+        /// </summary>
+        /// <returns></returns>
+     
         [HttpGet]
-        [Route("/skill/delete")]
+       
         public IActionResult DestroySkill()
         {
+            //business logic goes here
             try
             {
                 return View();
@@ -125,24 +166,31 @@ namespace SkillTracker.Web.Controllers
             }
         }
 
-        // delete skill of full stack engineer
+
+        /// <summary>
+        /// delete skill of full stack engineer
+        /// </summary>
+        /// <param name="skillname"></param>
+        /// <returns></returns>
+        
         [HttpPost]
-        [Route("/skill/delete")]
+    
         public async Task<IActionResult> DestroySkill(String skillname)
         {
+            //business logic goes here
             try
             {
                 var result = await _skillService.DeleteSkill(skillname);
                 if (result == 1)
                 {
-                    return RedirectToAction("AllSkills");
-                    return View();
+                    return RedirectToAction("allskills");
+                    
                 }
                 else
                 {
-                    return RedirectToAction("AllSkills");
+                    return RedirectToAction("allskills");
                 }
-                return View();
+                
             }
             catch (Exception ex)
             {
